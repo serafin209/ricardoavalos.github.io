@@ -1,75 +1,21 @@
-const root = document.documentElement;
-const themeToggle = document.getElementById('themeToggle');
-const menuToggle = document.getElementById('menuToggle');
-const navLinks = document.getElementById('navLinks');
-const storedTheme = localStorage.getItem('ricardo-theme');
-
-if (storedTheme) root.dataset.theme = storedTheme;
-themeToggle.textContent = root.dataset.theme === 'dark' ? '☀' : '☾';
-
-themeToggle.addEventListener('click', () => {
-  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-  localStorage.setItem('ricardo-theme', root.dataset.theme);
-  themeToggle.textContent = root.dataset.theme === 'dark' ? '☀' : '☾';
-});
-
-menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-document.querySelectorAll('.navlinks a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      entry.target.querySelectorAll?.('.bar').forEach(bar => bar.classList.add('animated'));
-    }
-  });
-}, { threshold: .13 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-const counterObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const el = entry.target;
-    const target = Number(el.dataset.count);
-    let value = 0;
-    const timer = setInterval(() => {
-      value += Math.max(1, Math.ceil(target / 28));
-      if (value >= target) {
-        value = target;
-        clearInterval(timer);
-      }
-      el.textContent = value + (target > 5 ? '+' : '+');
-    }, 35);
-    counterObserver.unobserve(el);
-  });
-}, { threshold: .7 });
-document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
-
-document.querySelectorAll('.filter').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const category = btn.dataset.filter;
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.classList.toggle('hidden', category !== 'all' && card.dataset.category !== category);
-    });
-  });
-});
-
-window.addEventListener('scroll', () => {
-  const doc = document.documentElement;
-  const max = doc.scrollHeight - doc.clientHeight;
-  document.getElementById('scrollProgress').style.width = `${(doc.scrollTop / max) * 100}%`;
-});
-
-document.getElementById('contactForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const name = encodeURIComponent(document.getElementById('name').value);
-  const email = encodeURIComponent(document.getElementById('email').value);
-  const message = encodeURIComponent(document.getElementById('message').value);
-  const subject = encodeURIComponent(`Portfolio inquiry from ${decodeURIComponent(name)}`);
-  const body = encodeURIComponent(`Name: ${decodeURIComponent(name)}\nEmail: ${decodeURIComponent(email)}\n\n${decodeURIComponent(message)}`);
-  window.location.href = `mailto:Ricardoavalos14@icloud.com?subject=${subject}&body=${body}`;
-});
-
-document.getElementById('year').textContent = new Date().getFullYear();
+const root=document.documentElement;
+const themeToggle=document.getElementById('themeToggle');
+const savedTheme=localStorage.getItem('theme');
+if(savedTheme)root.dataset.theme=savedTheme;
+const syncThemeIcon=()=>themeToggle.textContent=root.dataset.theme==='light'?'☾':'☀';
+syncThemeIcon();
+themeToggle.addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='light'?'dark':'light';localStorage.setItem('theme',root.dataset.theme);syncThemeIcon()});
+const menuToggle=document.getElementById('menuToggle');
+const navLinks=document.getElementById('navLinks');
+menuToggle.addEventListener('click',()=>navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+const counterObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;const el=entry.target;const target=Number(el.dataset.count);const decimals=Number.isInteger(target)?0:2;let value=0;const step=target/45;const timer=setInterval(()=>{value=Math.min(target,value+step);el.textContent=value.toFixed(decimals);if(value>=target)clearInterval(timer)},24);counterObserver.unobserve(el)}),{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>counterObserver.observe(el));
+const filters=document.querySelectorAll('.filter');
+const projects=document.querySelectorAll('.project-card');
+filters.forEach(button=>button.addEventListener('click',()=>{filters.forEach(item=>item.classList.remove('active'));button.classList.add('active');const value=button.dataset.filter;projects.forEach(card=>{card.hidden=value!=='all'&&!card.dataset.category.split(' ').includes(value)})}));
+window.addEventListener('scroll',()=>{const height=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('scrollProgress').style.width=`${height?window.scrollY/height*100:0}%`});
+document.getElementById('contactForm').addEventListener('submit',event=>{event.preventDefault();const name=encodeURIComponent(document.getElementById('name').value.trim());const email=encodeURIComponent(document.getElementById('email').value.trim());const message=encodeURIComponent(document.getElementById('message').value.trim());window.location.href=`mailto:Ricardoavalos14@icloud.com?subject=${encodeURIComponent(`Portfolio inquiry from ${decodeURIComponent(name)}`)}&body=${encodeURIComponent(`Name: ${decodeURIComponent(name)}\nEmail: ${decodeURIComponent(email)}\n\n${decodeURIComponent(message)}`)}`});
+document.getElementById('year').textContent=new Date().getFullYear();
