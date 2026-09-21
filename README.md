@@ -1,34 +1,19 @@
-# Ricardo Avalos Premium Portfolio Website
+# Ricardo Avalos Data Analytics Portfolio
 
-## Preview locally
-Open `index.html` in Chrome, Safari, Edge, or Firefox.
+Responsive portfolio for Data Analyst, Business Intelligence, Operations Analytics, and Supply Chain Analytics opportunities.
 
-## Included features
-- Responsive mobile-first design
-- Dark/light theme toggle
-- Scroll animations
-- Animated metrics
-- Interactive project filters
-- Skill progress animations
-- Role-specific resume downloads
-- Contact form that opens the visitor's email app
-- LinkedIn integration
+## Highlights
 
-## Publish with GitHub Pages
-1. Create a GitHub repository.
-2. Upload every file and folder from this package.
-3. Go to Settings → Pages.
-4. Set Source to “Deploy from a branch.”
-5. Select the `main` branch and `/root`.
-6. Save.
+- SQL, Python/pandas, Power BI/DAX, Power Query, Tableau, Excel, forecasting, cohort analysis, and data-modeling skills
+- Analytics-focused project portfolio with GitHub links
+- TripleTen Data Analytics certificate (September 2026)
+- One primary resume download with key contact information
+- Responsive dark/light design, project filters, animations, and email contact form
 
-## Publish with Netlify
-1. Sign in to Netlify.
-2. Drag the entire website folder into the deploy area.
-3. Netlify will generate a public URL.
+## Local preview
 
-## Before publishing
-- Add a GitHub URL after creating your GitHub profile.
-- Replace project text with live repository links as they become available.
-- Verify all résumé files are the versions you want employers to download.
-- The contact form uses `mailto:` and does not store data.
+Open `index.html` in a browser or serve the folder with a local static web server.
+
+## Resume
+
+The site uses `downloads/Ricardo_Avalos_Data_Analyst_Resume_Updated.docx` as the single resume download.
